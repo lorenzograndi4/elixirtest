@@ -1,10 +1,25 @@
 defmodule HelloServerTest do
   use ExUnit.Case
   doctest HelloServer
-
   use Plug.Test
 
   alias HelloServer.Router
+
+  describe "Elevator GenServer" do
+    test "the GenServer is started under the name Elevator" do
+      pid = Process.whereis(Elevator)
+
+      assert is_pid(pid)
+      assert Process.alive?(pid)
+    end
+  end
+
+  setup do
+    # restart the application to clean the elevator state.. FIXME :)
+    Application.stop(:hello_server)
+    Application.start(:hello_server)
+    :ok
+  end
 
   # test "request for / returns expected result" do
   #   conn = conn(:get, "/")
