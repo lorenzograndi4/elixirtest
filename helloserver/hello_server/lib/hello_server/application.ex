@@ -10,7 +10,8 @@ defmodule HelloServer.Application do
     children = [
       # Starts a worker by calling: HelloServer.Worker.start_link(arg)
       # {HelloServer.Worker, arg},
-      Plug.Adapters.Cowboy.child_spec(:http, HelloServer.Plug, [], port: 8080)
+      Supervisor.Spec.worker(Elevator, [25]),
+      Plug.Adapters.Cowboy.child_spec(:http, HelloServer.Router, [], port: 8080)
     ]
 
     IO.puts "Started the application!"
